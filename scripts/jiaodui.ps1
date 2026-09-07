@@ -8,8 +8,8 @@
 //   .\jiaodui.ps1 -File draft.md -Json
 //   .\jiaodui.ps1 -TextModel "他慢慢的走了。"
 //
-// key 读取顺序：-Key 参数 → $env:JIAODUI_API_KEY 环境变量 → 脚本目录向上查找 .env。
-// 没有 key 请先免费注册：https://jd.glowjames.top/register
+// Key 读取顺序：-Key 参数 → $env:JIAODUI_API_KEY 环境变量 → 脚本目录向上查找 .env。
+// 没有 Key 请先免费注册：https://jd.glowjames.top/register
 #>
 [CmdletBinding()]
 param(
@@ -39,8 +39,8 @@ function Show-Usage {
   -Key KEY     显式指定 API key（默认读环境变量 / .env）
   -Url URL     覆盖 API 端点
 
-key 读取顺序：-Key → `$env:JIAODUI_API_KEY → 脚本目录向上查找 .env。
-免费注册拿 key：https://jd.glowjames.top/register
+Key 读取顺序：-Key → `$env:JIAODUI_API_KEY → 脚本目录向上查找 .env。
+免费注册拿 Key：https://jd.glowjames.top/register
 "@
 }
 
@@ -78,7 +78,7 @@ if (-not $Text) { Show-Usage; exit 2 }
 if (-not $Key) { $Key = $env:JIAODUI_API_KEY }
 if (-not $Key) { $Key = Get-DotEnvKey "JIAODUI_API_KEY" }
 if (-not $Key) {
-  Write-Error '未找到 JIAODUI_API_KEY。请先免费注册拿 key（https://jd.glowjames.top/register），再设置环境变量：$env:JIAODUI_API_KEY = "你的 key"；或本次显式传入：.\jiaodui.ps1 -Key <key> "文本"'
+  Write-Error '未找到 JIAODUI_API_KEY。请先免费注册拿 Key（https://jd.glowjames.top/register），再设置环境变量：$env:JIAODUI_API_KEY = "你的 Key"；或本次显式传入：.\jiaodui.ps1 -Key <key> "文本"'
   exit 2
 }
 
@@ -98,8 +98,8 @@ try {
 catch {
   $code = 0
   try { $code = [int]$_.Exception.Response.StatusCode.value__ } catch { }
-  if ($code -eq 401) { Write-Error "key 无效或已过期（HTTP 401）。请去个人中心重新生成：https://jd.glowjames.top/portal"; exit 1 }
-  if ($code -eq 429) { Write-Error "触发限流（每个 key 2 QPS），请稍后重试（HTTP 429）。"; exit 1 }
+  if ($code -eq 401) { Write-Error "Key 无效或已过期（HTTP 401）。请去个人中心重新生成：https://jd.glowjames.top/portal"; exit 1 }
+  if ($code -eq 429) { Write-Error "触发限流（每 Key 每 2 秒 1 次），请按 Retry-After 退避后重试（HTTP 429）。"; exit 1 }
   Write-Error ("请求失败（HTTP {0}）：{1}" -f $code, $_.Exception.Message)
   exit 1
 }

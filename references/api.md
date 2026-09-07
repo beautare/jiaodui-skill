@@ -31,23 +31,23 @@ Authorization: Bearer <key>
 
 ## 限制
 
-| 项目 | 值 |
-|---|---|
-| HTTP body | ≤ 1MB（超限 400） |
-| 单次输入 | ≤ 40,000 字（超限 400） |
-| 限流 | 每个 key 2 QPS（超限 429） |
-| key 数量 | 每个账户最多 5 个有效 key |
-| 超时 | 服务端约 30s（超时 504）|
+| 项目 | 值 | 超限表现 |
+|---|---|---|
+| HTTP body | ≤ 1MB | 400（body_too_large） |
+| 单次输入 | ≤ 40,000 字（按 Unicode 字符计，非字节） | 400（context_length_exceeded） |
+| 限流（每 Key） | 每 2 秒 1 次（30 次/分钟），突发上限 4 | 429（rate_limit_exceeded），响应带 `Retry-After: 2` |
+| Key 数量 | 每账户 1 个有效 Key，更换先吊销旧的再创建 | 创建时提示已达上限 |
+| 超时 | 服务端约 30s | 504（timeout） |
 
 ## 错误格式
 
-非 2xx 返回 OpenAI 风格错误体：
+非 2xx 返回 OpenAI 风格错误体（`param` 仅在缺少 `messages` 时出现，其余为空省略）：
 
 ```json
-{ "error": { "message": "...", "type": "...", "code": "..." } }
+{ "error": { "message": "...", "type": "...", "param": "messages", "code": "..." } }
 ```
 
-常见：401（缺/错 key）、400（参数缺失或超长）、429（限流/配额用完）、504（超时）。
+常见：400（body 超 1MB、输入超 40,000 字或缺 `role=user` 消息）、401（缺/错 Key，`invalid_api_key`）、405（非 POST，`method_not_allowed`）、429（限流，`rate_limit_exceeded`，带 `Retry-After: 2`）、504（超时，`timeout`）。
 
 ## curl 示例
 

@@ -10,8 +10,8 @@
 #   jiaodui.sh -f draft.md --json
 #   jiaodui.sh --text-model "他慢慢的走了。"
 #
-# key 读取顺序：--key 参数 → $JIAODUI_API_KEY 环境变量 → 脚本目录向上查找 .env。
-# 没有 key 请先免费注册：https://jd.glowjames.top/register
+# Key 读取顺序：--key 参数 → $JIAODUI_API_KEY 环境变量 → 脚本目录向上查找 .env。
+# 没有 Key 请先免费注册：https://jd.glowjames.top/register
 
 set -u
 
@@ -43,8 +43,8 @@ usage() {
   --url URL         覆盖 API 端点
   -h, --help        显示本帮助
 
-key 读取顺序：--key → $JIAODUI_API_KEY → 脚本目录向上查找 .env。
-免费注册拿 key：https://jd.glowjames.top/register
+Key 读取顺序：--key → $JIAODUI_API_KEY → 脚本目录向上查找 .env。
+免费注册拿 Key：https://jd.glowjames.top/register
 EOF
 }
 
@@ -91,7 +91,7 @@ if [ -z "$KEY" ]; then
 fi
 if [ -z "$KEY" ]; then
   echo "$PROG: 未找到 JIAODUI_API_KEY。" >&2
-  echo "请先免费注册拿 key（https://jd.glowjames.top/register），再设置环境变量：" >&2
+  echo "请先免费注册拿 Key（https://jd.glowjames.top/register），再设置环境变量：" >&2
   echo '  export JIAODUI_API_KEY="你的 key"' >&2
   echo "或本次显式传入：$PROG --key <key> \"文本\"" >&2
   exit 2
@@ -115,8 +115,8 @@ BODY="$(printf '%s' "$HTTP_OUT" | sed '$d')"
 
 case "$CODE" in
   200) ;;
-  401) echo "$PROG: key 无效或已过期（HTTP 401）。请去个人中心重新生成：https://jd.glowjames.top/portal" >&2; exit 1 ;;
-  429) echo "$PROG: 触发限流（每个 key 2 QPS），请稍后重试（HTTP 429）。" >&2; exit 1 ;;
+  401) echo "$PROG: Key 无效或已过期（HTTP 401）。请去个人中心重新生成：https://jd.glowjames.top/portal" >&2; exit 1 ;;
+  429) echo "$PROG: 触发限流（每 Key 每 2 秒 1 次），请按 Retry-After 退避后重试（HTTP 429）。" >&2; exit 1 ;;
   *) echo "$PROG: 请求失败（HTTP $CODE）：" >&2; printf '%s\n' "$BODY" | head -c 2000 >&2; echo >&2; exit 1 ;;
 esac
 
