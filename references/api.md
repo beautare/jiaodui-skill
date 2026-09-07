@@ -23,7 +23,7 @@ Authorization: Bearer <key>
 - **`model`**：
   - `jiaodui`（默认）：结构化 JSON，`choices[0].message.content` 是
     `{"file": ..., "total": N, "items": [{"index","wrong","suggestion","type","offset"}]}` 字符串。
-  - `jiaodui-text`：可读文本报告，`content` 即报告原文。
+  - `jiaodui-text`：可读文本报告，`content` 即报告文本本身（直接展示即可，无需二次解析）。
   - `jiaodui-json`：`jiaodui` 的别名。
   - 为空或未知时服务端一律按 `jiaodui`（结构化 JSON）处理。
 - **`messages`**：数组。取**最后一个 `role=user`** 的消息作为待校对文本；没有则 400。
@@ -60,3 +60,10 @@ curl -s https://jd.glowjames.top/v1/chat/completions \
 ```
 
 调试可用 `scripts/beautare_client.py`（打印原始响应，支持 `--stream`）。
+
+## 数据与隐私
+
+- OpenAI 兼容接口（CLI / API / Skill / MCP 均走这条）**不主动保存原文**。
+- 仅当文本触发同音字等候选检查时，服务端质量改进日志会记录该次输入原文，用于改进校对准确率；该日志与账户/请求元数据分开存放，仅用于质量改进，不用于广告、营销或第三方共享，并按运营方保留策略定期清理。
+- 提交文本前请注意：不要向接口发送您不希望被记录的内容（例如未发布的稿件、含个人敏感信息的文本）。匿名文本替换（把姓名/地名等替换为占位符）后再提交，是规避不必要记录的安全做法。
+- 完整隐私口径见服务端<a href="https://jd.glowjames.top/privacy">隐私政策</a>。
