@@ -23,6 +23,8 @@ Authorization: Bearer <key>
 - **`model`**：
   - `jiaodui`（默认）：结构化 JSON，`choices[0].message.content` 是
     `{"file": ..., "total": N, "items": [{"index","wrong","suggestion","type","offset"}]}` 字符串。
+    其中 `index` 从 1 起；`offset` 是原文中的位置（按 Unicode 字符计，从 1 起）；
+    `type` 是错误类别，取值 `general` / `grammar` / `typo` / `style` 等，可能省略。
   - `jiaodui-text`：可读文本报告，`content` 即报告文本本身（直接展示即可，无需二次解析）。
   - `jiaodui-json`：`jiaodui` 的别名。
   - 为空或未知时服务端一律按 `jiaodui`（结构化 JSON）处理。

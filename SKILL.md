@@ -28,7 +28,7 @@ scripts/jiaodui.cmd "他慢慢的走了。"
 # macOS / Linux（jiaodui.sh）
 jiaodui.sh -f draft.md              # 校对文件
 jiaodui.sh -f draft.md --json       # 原始 JSON 输出
-jiaodui.sh --text-model             # 用 jiaodui-text 返回可读报告
+jiaodui.sh --text-model "文本"       # 用 jiaodui-text 返回可读报告
 echo "文本" | jiaodui.sh            # stdin 管道
 jiaodui.sh --key <key>              # 显式指定 Key
 jiaodui.sh --url <url>              # 覆盖 API 端点
@@ -36,7 +36,7 @@ jiaodui.sh --url <url>              # 覆盖 API 端点
 # Windows PowerShell（jiaodui.ps1，参数同义）
 jiaodui.ps1 -File draft.md          # 校对文件
 jiaodui.ps1 -File draft.md -Json    # 原始 JSON 输出
-jiaodui.ps1 -TextModel              # 用 jiaodui-text 返回可读报告
+jiaodui.ps1 -TextModel "文本"        # 用 jiaodui-text 返回可读报告
 "文本" | jiaodui.ps1                # stdin 管道
 jiaodui.ps1 -Key <key>              # 显式指定 Key
 jiaodui.ps1 -Url <url>              # 覆盖 API 端点
