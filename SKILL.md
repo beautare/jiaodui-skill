@@ -1,11 +1,11 @@
 ---
-name: beautare-jiaodui
+name: jiaodui-skill
 description: 中文校对助手。Use when you need to proofread Chinese text or send text proofreading/completions requests to the OpenAI-compatible completions API endpoint at https://jd.glowjames.top/v1/chat/completions
 ---
 
 # 校对助手 —— 中文校对能力
 
-> 更新日期：2026-09-07。开源仓库：https://github.com/beautare/jiaodui-skill（MIT）。
+> 更新日期：2026-09-12。开源仓库：https://github.com/beautare/jiaodui-skill（MIT）。
 
 ## 快速使用（CLI 脚本，无需安装 Python 包）
 
