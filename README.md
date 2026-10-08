@@ -4,8 +4,8 @@
 本仓库提供 CLI、Agent Skill 与 MCP 三种接入的实现，并附 API 直调说明。
 
 - 官网：https://jd.glowjames.top
-- 免费注册拿 Key：https://jd.glowjames.top/register（注册即得一个免费 Key）
-- 无差错时输出 `本次校对未发现差错。`
+- 免费注册拿 Key：https://jd.glowjames.top/register
+
 
 ## 你是哪类用户？三选一
 
@@ -45,7 +45,7 @@ $env:JIAODUI_API_KEY = "你的 Key"
   慢慢的走 → 慢慢地走
 ```
 
-更多参数（校对文件 `-f`、管道、JSON 输出）：见 `SKILL.md`。
+更多参数（校对文件 `-f`、管道、JSON 输出）：见 [CLI 参考](references/cli.md)。
 
 ### C. 自己编译 mcp-server —— 本地 MCP（需 Go 1.25+）
 
@@ -73,13 +73,15 @@ go build -o jiaodui-mcp .
 
 | 文件 | 说明 |
 |---|---|
-| `SKILL.md` | skill 定义全文：CLI / MCP / API 直调（AI 客户端可直接加载） |
+| `SKILL.md` | Agent 执行入口：适用范围、入口选择、执行与交付规则 |
 | `scripts/jiaodui.sh` | macOS / Linux CLI |
 | `scripts/jiaodui.ps1` | Windows PowerShell CLI |
 | `scripts/jiaodui.cmd` | Windows cmd 包装入口 |
 | `scripts/beautare_client.py` | 调试脚本：打印 OpenAI 风格原始响应 |
 | `scripts/setup_env.py` | 写 key 到本目录 `.env`（不改你的 shell 配置） |
 | `mcp-server/` | 本地 MCP 自包含源码（`go build` 即得） |
+| `references/setup.md` | 首次配置、MCP 接入与连接验证 |
+| `references/cli.md` | CLI 参数与使用示例 |
 | `references/api.md` | OpenAI 兼容接口参数 / 限制 / 错误码 |
 
 ## Key 与限制
