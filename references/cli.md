@@ -8,7 +8,7 @@
 
 ```bash
 # macOS / Linux
-scripts/jiaodui.sh "他慢慢的走了。"
+bash scripts/jiaodui.sh "他慢慢的走了。"
 
 # Windows PowerShell
 scripts/jiaodui.ps1 "他慢慢的走了。"
@@ -16,6 +16,10 @@ scripts/jiaodui.ps1 "他慢慢的走了。"
 # Windows cmd（包装入口，转发给 jiaodui.ps1）
 scripts/jiaodui.cmd "他慢慢的走了。"
 ```
+
+macOS / Linux 推荐显式使用 `bash`，无需脚本具有执行权限。以上相对路径示例在 Skill 根目录运行；从其他目录调用时使用实际安装位置的绝对路径，并给路径加引号。
+
+部分下载或解压安装方式可能丢失脚本的执行权限。若直接运行 `scripts/jiaodui.sh` 报 `Permission denied`（退出码 126），此时 API 请求尚未发出；改用 `bash scripts/jiaodui.sh "他慢慢的走了。"`。也可对该脚本执行 `chmod u+x scripts/jiaodui.sh` 后直接运行，无需 `sudo` 或扩大其他文件的权限。
 
 常用参数：
 

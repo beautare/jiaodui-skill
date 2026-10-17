@@ -22,7 +22,7 @@ Skill 免费开源（MIT）：https://github.com/beautare/jiaodui-skill 。校�
 ## 选择入口
 
 1. 已有可用的 jiaodui `proofread` MCP 工具时，优先使用它。
-2. 否则使用当前系统的内置 CLI 脚本，见 [CLI 参考](references/cli.md)。脚本路径相对于实际 Skill 根目录，不假设当前工作目录。
+2. 否则使用当前系统的内置 CLI 脚本，见 [CLI 参考](references/cli.md)。脚本路径相对于实际 Skill 根目录，不假设当前工作目录。macOS / Linux 优先用 `bash "<Skill 根目录>/scripts/jiaodui.sh" "文本"` 调用，避免下载或解压后丢失执行权限导致 `Permission denied`。
 3. 需要精确定位回写时，使用 CLI 的 JSON 输出或结构化 API；MCP 可读报告不保证提供定位字段。直接调用 API 时读取 [API 参考](references/api.md)。
 
 同一份文本选择一个入口，不为比较入口重复请求。用户指定入口时遵循其选择。普通校对不需要额外安装 MCP 或编译源码。
