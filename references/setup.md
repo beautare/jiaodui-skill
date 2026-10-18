@@ -19,7 +19,7 @@ Skill 免费开源，校对由在线 jiaodui API 执行。缺少 Key 时，指�
 
 ## MCP 接入（Claude / Cursor / VS Code 等）
 
-`proofread` 工具，两种接法（同一引擎、同一 key 体系）：
+`proofread` 工具，远端与本地接法（同一引擎、同一 key 体系）：
 
 ### A. 远端（推荐，零安装）
 
@@ -36,27 +36,37 @@ Skill 免费开源，校对由在线 jiaodui API 执行。缺少 Key 时，指�
 }
 ```
 
-### B. 本地（自行编译，stdio）
+### B. 本地（npx，stdio，无需编译）
 
-本仓库 `mcp-server/` 是零依赖自包含源码（除 `go-sdk`），三系统同一条命令（需 Go 1.25+）：
-
-```bash
-cd mcp-server
-go build -o jiaodui-mcp .
-```
+需要 Node.js 18+，支持 macOS、Linux、Windows 的 x64 / ARM64，无需安装 Go。[npm 包](https://www.npmjs.com/package/jiaodui-mcp)由主仓库构建发布。
 
 ```json
 {
   "mcpServers": {
     "jiaodui": {
-      "command": "/path/to/jiaodui-skill/mcp-server/jiaodui-mcp",
+      "command": "npx",
+      "args": ["-y", "jiaodui-mcp"],
       "env": { "JIAODUI_API_KEY": "你的 Key" }
     }
   }
 }
 ```
 
-本地版经远端 API 调用，不内置任何 Key，缺 Key 时报错指引注册。
+可以先运行 `npx -y jiaodui-mcp --version` 检查能否安装启动；这只验证程序，不代表 API Key 或校对连接已验证。首次运行需要联网从 npm 下载。
+
+本地 MCP 仍调用远端 API，稿件会发送至在线服务；不提供离线校对。Key 只读环境变量，不自动读取 Skill 根目录 `.env`。不要把 Key 写入 `args`。
+
+### C. 从源码编译（可选）
+
+需要 Go 1.25+：
+
+```bash
+cd mcp-server
+go build -o jiaodui-mcp .
+# Windows: go build -o jiaodui-mcp.exe .
+```
+
+将上面的 `command` 换为实际可执行文件的绝对路径，移除 `args`，保留 `env`。npm 包源码与发布流程位于 https://github.com/beautare/jiaodui-go/tree/master/npm/jiaodui-mcp 。
 
 ### 工具
 

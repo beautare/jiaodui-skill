@@ -7,7 +7,7 @@
 - 免费注册拿 Key：https://jd.glowjames.top/register
 
 
-## 你是哪类用户？三选一
+## 选择接入方式
 
 ### A. 在 AI 对话里用 —— 远端 MCP（零安装）
 
@@ -47,25 +47,30 @@ $env:JIAODUI_API_KEY = "你的 Key"
 
 更多参数（校对文件 `-f`、管道、JSON 输出）：见 [CLI 参考](references/cli.md)。
 
-### C. 自己编译 mcp-server —— 本地 MCP（需 Go 1.25+）
+### C. 本地 MCP —— npx 启动（无需编译）
 
-`mcp-server/` 是零依赖自包含源码（除 `go-sdk`），三系统同一条命令：
-
-```bash
-cd mcp-server
-go build -o jiaodui-mcp .
-```
-
-配 stdio（key 换自己的）：
+需要 Node.js 18+，支持 macOS、Linux、Windows 的 x64 / ARM64，无需安装 Go。[npm 包](https://www.npmjs.com/package/jiaodui-mcp)由主仓库构建发布。
 
 ```json
-{ "mcpServers": { "jiaodui": {
-  "command": "/path/to/jiaodui-mcp",
-  "env": { "JIAODUI_API_KEY": "你的 Key" }
-} } }
+{
+  "mcpServers": {
+    "jiaodui": {
+      "command": "npx",
+      "args": ["-y", "jiaodui-mcp"],
+      "env": { "JIAODUI_API_KEY": "你的 Key" }
+    }
+  }
+}
 ```
 
-本地版经远端 API 调用，不内置任何 Key，缺 Key 时报错指引注册。
+检查安装：`npx -y jiaodui-mcp --version`；MCP 客户端启动时会自动拉起 stdio 服务。
+
+本地 MCP 仍会将校对文本发送至远端 API，不是离线引擎；不内置 Key，只读取环境变量，不自动读取 Skill 的 `.env`。
+
+### D. 从源码编译（开发者可选）
+
+需要 Go 1.25+；在本仓库的 `mcp-server/` 内运行 `go build -o jiaodui-mcp .`（Windows 可指定 `-o jiaodui-mcp.exe`）。
+将 MCP 配置中的 `command` 换成生成文件的绝对路径，移除 npx 的 `args`，保留 `env`。详见 [配置指南](references/setup.md)。
 
 ---
 
@@ -86,7 +91,7 @@ go build -o jiaodui-mcp .
 
 ## Key 与限制
 
-- Key 读取顺序：`--key` 参数 → `$JIAODUI_API_KEY` 环境变量 → 本仓库根目录 `.env`
+- CLI 的 Key 读取顺序：`--key` 参数 → `$JIAODUI_API_KEY` 环境变量 → 本仓库根目录 `.env`
 - 单次输入 ≤ 40,000 字；HTTP body ≤ 1MB
 - 限流：每 Key 每 2 秒 1 次（30 次/分钟，突发上限 4），超限返回 429（响应带 `Retry-After: 2`）
 - 每账户 1 个有效 Key，更换时先在个人中心吊销旧的再创建新的
